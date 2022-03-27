@@ -45,6 +45,7 @@ namespace assignment {
     Node* newNode = new Node(value, leftNode->next);
     FindNode(index - 1)->next = newNode;
     size_++;
+    return true;
   }
 
   bool LinkedList::Set(int index, int new_value) {
