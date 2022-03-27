@@ -35,6 +35,7 @@ namespace assignment {
       delete node;
       node = nextNode;
     }
+
     size_ = 0;
     front_ = nullptr;
     back_ = nullptr;
