@@ -58,12 +58,14 @@ namespace assignment {
     if (index >= size_ || size_ == 0 || index < 0) return std::nullopt;
     if (index == 0) {
       int output = front_->value;
+      Node* node = front_;
       front_ = front_->next;
+      delete node;
       size_--;
       return output;
     }
     if (index == size_ - 1) {
-      int output = FindNode(index)->value;
+      int output = back_->value;
       size_--;
       delete back_;
       back_ = FindNode(index - 1);
@@ -79,9 +81,15 @@ namespace assignment {
   }
 
   void LinkedList::Clear() {
+    if (size_ == 0) return;
+    Node* node = front_;
+    Node* nextNode;
     for (int i = 0; i < size_; i++) {
-      delete FindNode(i);
+      nextNode = node->next;
+      delete node;
+      node = nextNode;
     }
+
     size_ = 0;
     front_ = nullptr;
     back_ = nullptr;
@@ -94,22 +102,18 @@ namespace assignment {
 
   std::optional<int> LinkedList::IndexOf(int value) const {
     if (size_ == 0) return std::nullopt;
+    Node* node = front_;
     for (int i = 0; i < size_; i++) {
-      if (FindNode(i)->value == value) {
-        return i;
-      }
+      if (node->value == value) return i;
+      node = node->next;
     }
     return std::nullopt;
   }
 
   bool LinkedList::Contains(int value) const {
     if (size_ == 0) return false;
-    for (int i = 0; i < size_; i++) {
-      if (FindNode(i)->value == value) {
-        return true;
-      }
-    }
-    return false;
+    if (IndexOf(value) == std::nullopt) return false;
+    return true;
   }
 
   bool LinkedList::IsEmpty() const {
